@@ -1,0 +1,8 @@
+*.log
+env
+venv
+settings.py
+.vscode
+__pycache__
+settings.json
+setup.cfg
