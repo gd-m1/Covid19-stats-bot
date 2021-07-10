@@ -1,8 +1,9 @@
 import logging
+import os
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
+
 from handlers import *
-import settings
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
@@ -12,13 +13,14 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
 
 commands = {'start': 'Start using this bot',
             'country': 'Please, write a country name',
+            'statistics': 'Query statistics',
             'help': 'Useful information about this bot'}
 
 COUNTRY = 0
 
 
 def main():
-    mybot = Updater(settings.API_KEY)
+    mybot = Updater(os.getenv('API_KEY'))
 
     logging.info('Bot is starting')
 
@@ -36,9 +38,10 @@ def main():
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start', greet_user))
     dp.add_handler(country_name)
+    dp.add_handler(CommandHandler('statistics', get_query_stats))
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-    
+
     mybot.start_polling()
     mybot.idle()
 
