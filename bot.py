@@ -20,6 +20,7 @@ COUNTRY = 0
 
 
 def main():
+    PORT = int(os.environ.get('PORT', '8443'))
     mybot = Updater(os.getenv('API_KEY'))
 
     logging.info('Bot is starting')
@@ -42,7 +43,10 @@ def main():
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
-    mybot.start_polling()
+    mybot.start_webhook(listen="0.0.0.0",
+                        port=PORT,
+                        url_path=os.getenv('API_KEY'),
+                        webhook_url=os.getenv('HEROKU_URL') + os.getenv('API_KEY'))
     mybot.idle()
 
 
