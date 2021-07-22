@@ -35,7 +35,7 @@ def main():
             Filters.video | Filters.photo | Filters.document,
             help)]
     )
-
+    # Add handlers
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start', greet_user))
     dp.add_handler(country_name)
@@ -43,6 +43,8 @@ def main():
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
+    # Set up a webhook
+    # For long polling connection read README file
     mybot.start_webhook(listen="0.0.0.0",
                         port=PORT,
                         url_path=os.getenv('API_KEY'),
